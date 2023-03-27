@@ -3,39 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class NoteController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
         $note = Note::find(1);
-        dd($note);
+        return response()->json($note);
     }
 
-    public function create()
+    public function create(): JsonResponse
     {
-        $noteArr = [
-            [
-                'id' => '1',
-                'title' => 'blabla',
-                'description' => 'yes',
-                'hours_spend' => '123',
-                'comments' => 'ifwodkf'
-            ]
+        $noteData = [
+            'id' => '1',
+            'title' => 'blabla',
+            'description' => 'yes',
+            'hours_spend' => '123',
+            'comments' => 'ifwodkf'
         ];
-        foreach ($noteArr as $item) {
-            dd($item);
-            Note::create();
-        }
+        $note = Note::create($noteData);
+        return response()->json($note);
     }
 }
-
-Note::create([
-    'id' => '1',
-    'title' => 'blabla',
-    'description' => 'yes',
-    'hours_spend' => '123',
-    'comments' => 'ifwodkf'
-]);
-
