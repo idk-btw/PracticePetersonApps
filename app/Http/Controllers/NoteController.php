@@ -9,14 +9,14 @@ class NoteController extends Controller
 {
     public function index(): JsonResponse
     {
-        $note = Note::find(3);
+        $note = Note::find(4);
         return response()->json($note);
     }
 
     public function create(): JsonResponse
     {
         $noteData = [
-            'id' => '3',
+            'id' => '4',
             'title' => 'qwerty',
             'description' => 'qwerty 123',
             'hours_spend' => '15',
