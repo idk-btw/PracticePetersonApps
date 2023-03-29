@@ -9,7 +9,7 @@ class NoteController extends Controller
 {
     public function index(): JsonResponse
     {
-        $note = Note::find(2);
+        $note = Note::find(5);
         return response()->json($note);
     }
 
@@ -17,10 +17,10 @@ class NoteController extends Controller
     {
         $noteData =
             [
-                'id' => '2',
-                'title' => 'qwer',
-                'description' => 'no',
-                'hours_spend' => '15',
+                'id' => '5',
+                'title' => '5 useless',
+                'description' => 'pushing to merge',
+                'hours_spend' => '2',
                 'comments' => 'bebebe'
             ];
         $note = Note::create($noteData);
