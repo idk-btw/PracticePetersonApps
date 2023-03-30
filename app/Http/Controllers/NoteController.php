@@ -15,14 +15,13 @@ class NoteController extends Controller
 
     public function create(): JsonResponse
     {
-        $noteData =
-            [
-                'id' => '4',
-                'title' => 'qwerty',
-                'description' => 'qwerty 123',
-                'hours_spend' => '15',
-                'comments' => 'awesome!'
-            ];
+        $noteData = [
+            'id' => '4',
+            'title' => 'qwerty',
+            'description' => 'qwerty 123',
+            'hours_spend' => '15',
+            'comments' => 'awesome!'
+        ];
         $note = Note::create($noteData);
         return response()->json($note);
     }
