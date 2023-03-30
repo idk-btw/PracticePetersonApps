@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notes', function (Blueprint $table) {
+        Schema::create('project_note', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
+            $table->bigInteger('note_id');
             $table->bigInteger('project_id');
-            $table->string('title');
-            $table->text('description');
-            $table->double('hours_spend');
-            $table->string('comments');
-            $table->string('type');
             $table->timestamps();
         });
     }
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notes');
+        Schema::dropIfExists('project_note');
     }
 };
