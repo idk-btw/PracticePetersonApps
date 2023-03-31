@@ -15,14 +15,21 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
-            $table->bigInteger('project_id');
-            $table->string('title');
+            $table->string('title')->unique();
             $table->text('description');
             $table->double('hours_spend');
-            $table->string('comments');
+            $table->string('comments')->nullable();
             $table->string('type');
+            $table->unsignedBigInteger('project_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
+
+//Transferred to create_projects because of time of creation
+//            $table->index('project_id','note_project_idx');
+//            $table->index('user_id','note_user_idx');
+//
+//            $table->foreign('project_id','note_project_fk')->on('projects')->references('id');
+//            $table->foreign('user_id','note_user_fk')->on('users')->references('id');
         });
     }
 

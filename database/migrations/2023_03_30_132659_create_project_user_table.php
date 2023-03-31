@@ -15,9 +15,14 @@ return new class extends Migration
     {
         Schema::create('project_user', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
-            $table->bigInteger('project_id');
-            $table->timestamps();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('project_id');
+
+            $table->index('user_id', 'project_user_user_idx');
+            $table->index('project_id', 'project_user_project_idx');
+
+            $table->foreign('user_id', 'project_user_user_fk')->on('users')->references('id');
+            $table->foreign('project_id', 'project_user_project_fk')->on('projects')->references('id');
         });
     }
 
