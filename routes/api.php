@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\ProjectController;
+use App\Models\Note;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,16 +18,21 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/index', [NoteController::class, 'index']);
-Route::post('/index', [NoteController::class, 'create']);
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::controller(NoteController::class)->prefix('note')->group(function () {
+    Route::get('index', 'index');
+    Route::post('store', 'create');
 });
+
+Route::controller(ProjectController::class)->prefix('project')->group(function () {
+    Route::get('index', 'index');
+    Route::post('store', 'create');
+    Route::post('destroy', 'delete');
+    Route::get('show/{project}', 'show');
+});
+
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
-
 });
-
