@@ -18,10 +18,9 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->text('description');
             $table->double('hours_spend');
+            $table->integer('stage');
             $table->string('comments')->nullable();
-           // $table->string('type');
-            //$table->unsignedBigInteger('project_id')->nullable();
-            //$table->unsignedBigInteger('user_id')->nullable();
+            $table->string('type');
             $table->timestamps();
         });
     }
