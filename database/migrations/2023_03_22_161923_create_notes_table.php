@@ -16,12 +16,11 @@ return new class extends Migration
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
-            $table->text('description');
-            $table->double('hours_spend');
+            $table->text('description')->nullable();
+            $table->double('hours_spend')->nullable();
+            $table->integer('stage')->default(0);
             $table->string('comments')->nullable();
-           // $table->string('type');
-            //$table->unsignedBigInteger('project_id')->nullable();
-            //$table->unsignedBigInteger('user_id')->nullable();
+            $table->string('type');
             $table->timestamps();
         });
     }
