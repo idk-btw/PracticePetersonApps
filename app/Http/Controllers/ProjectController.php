@@ -16,7 +16,9 @@ class ProjectController extends Controller
     public function create(Request $request): JsonResponse
     {
         $request->validate([
-            'title' => 'required|string|max:255|unique:projects',
+            'title' => 'required|string|max:25|unique:projects',
+            'description' => 'required|string|max:255',
+            'type' => 'required|string|max:25'
         ]);
 
         $project = Project::create([
@@ -27,13 +29,38 @@ class ProjectController extends Controller
         return response()->json($project, 201);
     }
 
-    public function delete(Project $project)
-    {
-        return $project->delete();
-    }
-
-    public function show(Project $project)
+    public function show(Project $project): JsonResponse
     {
         return response()->json($project->load('notes'));
+    }
+
+  /*  public function edit($id): JsonResponse
+    {
+        $project = Project::findOrFail($id);
+        return response()->json($project, 201);
+    }
+*/
+    public function update(Request $request, int $id): JsonResponse
+    {
+        $request->validate([
+            'title' => 'required|string|max:25|unique:projects',
+            'description' => 'required|string|max:255',
+            'type' => 'required|string|max:25'
+        ]);
+
+        $project = Project::find($id);
+        $project->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'type' => $request->type,
+        ]);
+        return response()->json($project, 201);
+    }
+
+    public function destroy($id): JsonResponse
+    {
+        $project = Project::findOrFail($id);
+
+        return response()->json($project->load('notes')->delete());
     }
 }

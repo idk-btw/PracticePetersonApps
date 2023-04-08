@@ -18,13 +18,17 @@ use Illuminate\Support\Facades\Route;
 Route::controller(NoteController::class)->prefix('note')->group(function () {
     Route::get('index', 'index');
     Route::post('store', 'create');
+    Route::post('destroy/{id}', 'destroy');
+    Route::get('show/{id}', 'show');
 });
 
 Route::controller(ProjectController::class)->prefix('project')->group(function () {
     Route::get('index', 'index');
     Route::post('store', 'create');
-    Route::post('destroy', 'delete');
-    Route::get('show/{project}', 'show');
+    Route::post('destroy/{id}', 'destroy');
+    Route::get('show/{id}', 'show');
+    Route::get('edit/{id}', 'edit');
+    Route::put('edit/{id}', 'update');
 });
 
 Route::controller(AuthController::class)->group(function () {

@@ -36,18 +36,15 @@ class NoteController extends Controller
         return response()->json($note, 201);
     }
 
-    public function delete(Note $note)
+    public function destroy($id): JsonResponse
     {
-        return $note->delete();
+        $note = Note::findOrFail($id);
+
+        return response()->json($note->delete());
     }
 
-    public function show(Note $note)
+    public function show(Note $note): JsonResponse
     {
         return response()->json($note->load('users'));
-    }
-
-    public function updateNoteStage()
-    {
-
     }
 }
