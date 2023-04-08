@@ -10,7 +10,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
@@ -21,9 +21,9 @@ return new class extends Migration {
         });
 
         Schema::table('notes', function (Blueprint $table) {
-            $table->foreignId('project_id', 'note_project_fk')
+            $table->foreignId('project_id')
                 ->references('id')->on('projects')->onDelete('cascade');
-            $table->foreignId('user_id', 'note_user_fk')
+            $table->foreignId('user_id')->nullable()
                 ->references('id')->on('users')->onDelete('cascade');
         });
     }
@@ -33,7 +33,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('projects');
     }
