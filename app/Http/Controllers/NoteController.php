@@ -19,12 +19,11 @@ class NoteController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255|unique:notes',
-            'description' => 'required|string|max:255|',
-            'hours_spend' => 'required|double',
-            'type' => 'required|string|max:25|',
-            'title' => 'required|string|max:255|',
-            'title' => 'required|string|max:255|',
-            'title' => 'required|string|max:255|',
+            'description' => 'required|string|max:255',
+            'hours_spend' => 'numeric|min:0.01',
+            'type' => 'required|string|max:25',
+            'user_id' => 'required|integer',
+            'project_id' => 'required|integer'
         ]);
 
         $user = User::findOrFail($request->user_id);

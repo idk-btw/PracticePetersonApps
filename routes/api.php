@@ -41,4 +41,5 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::controller(UserController::class)->prefix('user')->group(function () {
     Route::get('index', 'index');
+    Route::get('show/{id}', 'show');
 });
