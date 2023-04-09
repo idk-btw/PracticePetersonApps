@@ -29,17 +29,12 @@ class ProjectController extends Controller
         return response()->json($project, 201);
     }
 
-    public function show(Project $project): JsonResponse
+    public function show($id): JsonResponse
     {
+        $project = Project::findOrFail($id);
         return response()->json($project->load('notes'));
     }
 
-  /*  public function edit($id): JsonResponse
-    {
-        $project = Project::findOrFail($id);
-        return response()->json($project, 201);
-    }
-*/
     public function update(Request $request, int $id): JsonResponse
     {
         $request->validate([
@@ -62,5 +57,11 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
 
         return response()->json($project->load('notes')->delete());
+    }
+
+    public function edit($id): JsonResponse
+    {
+        $project = Project::findOrFail($id);
+        return response()->json($project, 201);
     }
 }

@@ -19,6 +19,12 @@ class NoteController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255|unique:notes',
+            'description' => 'required|string|max:255|',
+            'hours_spend' => 'required|double',
+            'type' => 'required|string|max:25|',
+            'title' => 'required|string|max:255|',
+            'title' => 'required|string|max:255|',
+            'title' => 'required|string|max:255|',
         ]);
 
         $user = User::findOrFail($request->user_id);
@@ -43,8 +49,9 @@ class NoteController extends Controller
         return response()->json($note->delete());
     }
 
-    public function show(Note $note): JsonResponse
+    public function show($id): JsonResponse
     {
-        return response()->json($note->load('users'));
+        $user = Note::findOrFail($id);
+        return response()->json($user->load('user'));
     }
 }
