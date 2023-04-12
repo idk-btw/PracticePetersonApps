@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
@@ -13,55 +13,25 @@ class ProjectController extends Controller
         return response()->json(Project::all());
     }
 
-    public function create(Request $request): JsonResponse
+    public function create(ProjectRequest $request): JsonResponse
     {
-        $request->validate([
-            'title' => 'required|string|max:25|unique:projects',
-            'description' => 'required|string|max:255',
-            'type' => 'required|string|max:25'
-        ]);
-
-        $project = Project::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'type' => $request->type,
-        ]);
-        return response()->json($project, 201);
+        $project = Project::create($request->validated());
+        return response()->json($project);
     }
 
-    public function show($id): JsonResponse
+    public function show(Project $project): JsonResponse
     {
-        $project = Project::findOrFail($id);
         return response()->json($project->load('notes'));
     }
 
-    public function update(Request $request, int $id): JsonResponse
+    public function update(ProjectRequest $request, Project $project): JsonResponse
     {
-        $request->validate([
-            'title' => 'required|string|max:25|unique:projects',
-            'description' => 'required|string|max:255',
-            'type' => 'required|string|max:25'
-        ]);
-
-        $project = Project::find($id);
-        $project->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'type' => $request->type,
-        ]);
-        return response()->json($project, 201);
+        $project->update($request->validated());
+        return response()->json($project);
     }
 
-    public function destroy($id): JsonResponse
+    public function destroy(Project $project): JsonResponse
     {
-        $project = Project::findOrFail($id);
-
-        return response()->json($project->load('notes')->delete());
-    }
-
-    public function edit($id): JsonResponse
-    {
-        $project = Project::findOrFail($id);
-        return response()->json($project, 201);
+        return response()->json($project->delete(), 204);
     }
 }

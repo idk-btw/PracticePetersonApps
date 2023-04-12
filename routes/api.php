@@ -16,22 +16,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::controller(NoteController::class)->prefix('note')->group(function () {
-    Route::get('index', 'index');
-    Route::post('store', 'create');
-    Route::post('destroy/{id}', 'destroy');
-    Route::get('show/{id}', 'show');
-});
-
-Route::controller(ProjectController::class)->prefix('project')->group(function () {
-    Route::get('index', 'index');
-    Route::post('store', 'create');
-    Route::post('destroy/{id}', 'destroy');
-    Route::get('show/{id}', 'show');
-    Route::get('edit/{id}', 'edit');
-    Route::put('edit/{id}', 'update');
-});
-
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
@@ -39,7 +23,25 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('refresh', 'refresh');
 });
 
-Route::controller(UserController::class)->prefix('user')->group(function () {
-    Route::get('index', 'index');
-    Route::get('show/{id}', 'show');
+Route::middleware('auth:api')->group(function () {
+    Route::controller(NoteController::class)->prefix('note')->group(function () {
+        Route::get('index', 'index');
+        Route::post('store', 'create');
+        Route::delete('destroy/{note}', 'destroy');
+        Route::get('show/{note}', 'show');
+        Route::put('edit/{note}', 'update');
+        Route::put('stage/{note}', 'updateStage');
+    });
+
+    Route::controller(ProjectController::class)->prefix('project')->group(function () {
+        Route::get('index', 'index');
+        Route::post('store', 'create');
+        Route::delete('destroy/{project}', 'destroy');
+        Route::get('show/{project}', 'show');
+        Route::put('update/{project}', 'update');
+    });
+
+    Route::controller(UserController::class)->group(function () {
+        Route::get('me', 'me');
+    });
 });

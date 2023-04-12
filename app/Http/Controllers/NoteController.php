@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NoteRequest;
 use App\Models\Note;
 use App\Models\Project;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NoteController extends Controller
 {
@@ -15,42 +15,46 @@ class NoteController extends Controller
         return response()->json(Note::all());
     }
 
-    public function create(Request $request): JsonResponse
+    public function create(NoteRequest $request): JsonResponse
     {
-        $request->validate([
-            'title' => 'required|string|max:255|unique:notes',
-            'description' => 'required|string|max:255',
-            'hours_spend' => 'numeric|min:0.01',
-            'type' => 'required|string|max:25',
-            'user_id' => 'required|integer',
-            'project_id' => 'required|integer'
-        ]);
+        $validatedData = $request->validated();
 
-        $user = User::findOrFail($request->user_id);
-        $project = Project::findOrFail($request->project_id);
+        $user = Auth::user();
+        $project = Project::findOrFail($validatedData['project_id']);
 
         $note = new Note([
-            'title' => $request->title,
-            'description' => $request->description,
-            'hours_spend' => $request->hours_spend,
-            'type' => $request->type,
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'hours_spend' => $validatedData['hours_spend'],
+            'type' => $validatedData['type']
         ]);
         $project->notes()->save($note);
         $user->notes()->save($note);
         $note->save();
-        return response()->json($note, 201);
+        return response()->json($note);
     }
 
-    public function destroy($id): JsonResponse
+    public function destroy(Note $note): JsonResponse
     {
-        $note = Note::findOrFail($id);
-
-        return response()->json($note->delete());
+        return response()->json($note->delete(), 204);
     }
 
-    public function show($id): JsonResponse
+    public function show(Note $note): JsonResponse
     {
-        $user = Note::findOrFail($id);
-        return response()->json($user->load('user'));
+        return response()->json($note->load('user'));
+    }
+
+    public function update(NoteRequest $request, Note $note): JsonResponse
+    {
+        $note->update($request->validated());
+        return response()->json($note);
+    }
+
+    public function updateStage(NoteRequest $request, Note $note): JsonResponse
+    {
+        $validatedData = $request->validated();
+
+        $note->update($validatedData);
+        return response()->json($note);
     }
 }
