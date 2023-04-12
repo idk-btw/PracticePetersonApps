@@ -29,13 +29,12 @@ class ProjectController extends Controller
         return response()->json($project, 201);
     }
 
-    public function show($id): JsonResponse
+    public function show(Project $project): JsonResponse
     {
-        $project = Project::findOrFail($id);
         return response()->json($project->load('notes'));
     }
 
-    public function update(Request $request, int $id): JsonResponse
+    public function update(Request $request, Project $project): JsonResponse
     {
         $request->validate([
             'title' => 'required|string|max:25|unique:projects',
@@ -43,25 +42,16 @@ class ProjectController extends Controller
             'type' => 'required|string|max:25'
         ]);
 
-        $project = Project::find($id);
         $project->update([
             'title' => $request->title,
             'description' => $request->description,
             'type' => $request->type,
         ]);
-        return response()->json($project, 201);
+        return response()->json($project);
     }
 
-    public function destroy($id): JsonResponse
+    public function destroy(Project $project): JsonResponse
     {
-        $project = Project::findOrFail($id);
-
-        return response()->json($project->load('notes')->delete());
-    }
-
-    public function edit($id): JsonResponse
-    {
-        $project = Project::findOrFail($id);
-        return response()->json($project, 201);
+        return response()->json($project->delete(), 204);
     }
 }
