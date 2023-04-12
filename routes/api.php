@@ -38,7 +38,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('store', 'create');
         Route::delete('destroy/{project}', 'destroy');
         Route::get('show/{project}', 'show');
-        Route::put('update/{id}', 'update');
+        Route::put('update/{project}', 'update');
     });
 
     Route::controller(UserController::class)->group(function () {

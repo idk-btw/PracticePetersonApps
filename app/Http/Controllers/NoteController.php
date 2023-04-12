@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\NoteRequest;
 use App\Models\Note;
 use App\Models\Project;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class NoteController extends Controller
@@ -48,9 +46,7 @@ class NoteController extends Controller
 
     public function update(NoteRequest $request, Note $note): JsonResponse
     {
-        $validatedData = $request->validated();
-
-        $note->update($validatedData);
+        $note->update($request->validated());
         return response()->json($note);
     }
 

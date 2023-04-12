@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
@@ -13,20 +13,10 @@ class ProjectController extends Controller
         return response()->json(Project::all());
     }
 
-    public function create(Request $request): JsonResponse
+    public function create(ProjectRequest $request): JsonResponse
     {
-        $request->validate([
-            'title' => 'required|string|max:25|unique:projects',
-            'description' => 'required|string|max:255',
-            'type' => 'required|string|max:25'
-        ]);
-
-        $project = Project::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'type' => $request->type,
-        ]);
-        return response()->json($project, 201);
+        $project = Project::create($request->validated());
+        return response()->json($project);
     }
 
     public function show(Project $project): JsonResponse
@@ -34,19 +24,9 @@ class ProjectController extends Controller
         return response()->json($project->load('notes'));
     }
 
-    public function update(Request $request, Project $project): JsonResponse
+    public function update(ProjectRequest $request, Project $project): JsonResponse
     {
-        $request->validate([
-            'title' => 'required|string|max:25|unique:projects',
-            'description' => 'required|string|max:255',
-            'type' => 'required|string|max:25'
-        ]);
-
-        $project->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'type' => $request->type,
-        ]);
+        $project->update($request->validated());
         return response()->json($project);
     }
 
