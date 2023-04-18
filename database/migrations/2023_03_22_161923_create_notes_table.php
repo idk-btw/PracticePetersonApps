@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->string('title')->unique();
             $table->text('description')->nullable();
-            $table->double('hours_spend')->nullable();
+            $table->double('hours_spend')->default(0);
             $table->integer('stage')->default(0);
             $table->string('type');
             $table->timestamps();
