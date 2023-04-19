@@ -37,7 +37,7 @@ class NoteRequest extends FormRequest
                 'hours_spend' => 'numeric|min:0.01',
                 'type' => 'required|string|max:25'
             ],
-            'updateStage' =>[
+            'updateStage' => [
                 'stage' => 'required|numeric'
             ]
         };
