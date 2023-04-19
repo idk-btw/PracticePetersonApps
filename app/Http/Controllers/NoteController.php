@@ -52,9 +52,7 @@ class NoteController extends Controller
 
     public function updateStage(NoteRequest $request, Note $note): JsonResponse
     {
-        $validatedData = $request->validated();
-
-        $note->update($validatedData);
+        $note->update($request->validated());
         return response()->json($note);
     }
 }
