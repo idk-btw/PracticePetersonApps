@@ -27,7 +27,7 @@ class NoteRequest extends FormRequest
             'create' => [
                 'title' => 'required|string|max:255|unique:notes',
                 'description' => 'required|string|max:255',
-                'hours_spend' => 'numeric|min:0.01',
+                'hours_spend' => 'numeric',
                 'type' => 'required|string|max:25',
                 'project_id' => 'required|integer'
             ],
