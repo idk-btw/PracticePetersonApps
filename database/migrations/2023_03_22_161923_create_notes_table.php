@@ -19,12 +19,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->double('hours_spend')->default(0);
             $table->integer('stage')->default(0);
-            $table->string('comments')->nullable();
             $table->string('type');
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
